@@ -31,8 +31,9 @@ const questionTitle = document.querySelector('.question');
 const answerOptions = document.querySelector('.answer-options');
 const resultContainer = document.querySelector('.result');
 
-let questionContainer = document.querySelector('#question-container');
+let questionContainer = document.querySelector('.question-container');
 let currentQuestion = 0;
+let currentScore = 0;
 
 //generate question from array
 const startQuiz = () => {
@@ -81,6 +82,7 @@ const checkAnswer = (event) => {
 
 // after answer is made
 const showResult = (answer) => {
+    resultContainer.style.display = 'block';
     if(answer){
         resultContainer.textContent = 'Correct';
     } else {
@@ -96,9 +98,33 @@ const clearListItems = () => {
 }
 
 const endGame = () => {
-    questionBlock.style.display = 'none';
-    alert('game over');
-    //show score
+    questionContainer.style.display = 'none';
+    let endGameContainer = document.createElement('div');
+
+    let gameOver = document.createElement('h2');
+    gameOver.textContent = 'Game Over';
+    endGameContainer.appendChild(gameOver);
+
+    let yourScore = document.createElement('h3');
+    yourScore.textContent = `Your Score: ${currentScore}`;
+    endGameContainer.appendChild(yourScore);
+
+    let initialsLabel= document.createElement('label');
+    initialsLabel.className = 'form-label';
+    initialsLabel.setAttribute('for','initials');
+    initialsLabel.textContent = 'Enter Initials: ';
+    endGameContainer.appendChild(initialsLabel);
+
+    let initialsInput = document.createElement('input');
+    initialsInput.setAttribute('type','text');
+    initialsInput.setAttribute('id','initials');
+    initialsInput.setAttribute('name','initials');
+    endGameContainer.appendChild(initialsInput);
+
+    questionBlock.appendChild(endGameContainer);
+
+
+    
 
 }
 

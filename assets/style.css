@@ -65,4 +65,17 @@ color:var(--tertiarycolor);
 font-size: 1.4rem;
 border-top:1.5px solid var(--tertiarycolor);
 width: 80%;
+display:none;
+}
+.form-label{
+    color: var(--primarycolor);
+    font-size:1.2rem;
+}
+#initials{
+    border-radius: 5px;;
+    background-color: var(--secondarycolor);
+    color:white;
+    border-color: none;
+    height:20px;
+    margin:20px;
 }
