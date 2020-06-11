@@ -16,6 +16,10 @@ header{
     width:75%;
     margin-top:20px;
 }
+.high-score:hover {
+    cursor: pointer;
+    color:var(--primarycolor);
+}
 main{
     width:700px;
     /* text-align:center; */
@@ -59,6 +63,7 @@ ol{
 }
 .btn:hover, li:hover{
     background-color: var(--secondarycolor);
+    cursor: pointer;
 }
 .result{
 color:var(--tertiarycolor);
