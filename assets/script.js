@@ -240,6 +240,7 @@ const saveScores = () => {
 //generate high scores list
 const viewHighScores = () => {
     main.innerHTML = '';
+    timeLeft.textContent = '';
 
     let scoresTitle = document.createElement('h2');
     scoresTitle.textContent = 'High Scores';
