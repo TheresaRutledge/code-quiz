@@ -32,12 +32,14 @@ const answerOptions = document.querySelector('.answer-options');
 const resultContainer = document.querySelector('.result');
 const main = document.querySelector('main');
 const highScoresBtn = document.querySelector('.high-score');
+const timeLeft = document.querySelector('#time-left');
 
 let questionContainer = document.querySelector('.question-container');
 let currentQuestion = 0;
 let currentScore = 0;
 let highScores = [];
-
+let time = 15;
+let clock;
 const loadScores = () => {
     highScores = localStorage.getItem('scores');
     if(!highScores){
@@ -51,6 +53,8 @@ const loadScores = () => {
 const startQuiz = () => {
     intro.style.display = 'none';
     questionBlock.style.display = 'block'
+    //start timer
+    clock = setInterval(timer,1000);
     //pass index of question
    getQuestion();
 }
@@ -100,6 +104,7 @@ const showResult = (answer) => {
         resultContainer.textContent = 'Correct';
     } else {
         resultContainer.textContent = 'Wrong';
+        time -= 5;
     }
     clearListItems();
     getQuestion();
@@ -111,6 +116,7 @@ const clearListItems = () => {
 }
 
 const endGame = () => {
+    clearInterval(clock);
     questionContainer.style.display = 'none';
     let endGameContainer = document.createElement('div');
 
@@ -209,6 +215,20 @@ startOver.addEventListener('click', function (){
 
 const compare = (a,b) =>{
     return a.score-b.score;
+}
+
+const timer = () =>{
+    timeLeft.textContent = time;
+    if(time<=10){
+        timeLeft.style.color = 'red';
+    }
+    if (time <= 0){
+        clearInterval(clock);
+        endGame();
+    } else {
+    time--;
+    }
+
 }
 
 
