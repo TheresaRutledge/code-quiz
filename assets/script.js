@@ -74,8 +74,9 @@ const resultContainer = document.querySelector('.result');
 const main = document.querySelector('main');
 const highScoresBtn = document.querySelector('.high-score');
 const timeLeft = document.querySelector('#time-left');
+const questionContainer = document.querySelector('.question-container');
 
-let questionContainer = document.querySelector('.question-container');
+// global variables
 let currentQuestion = 0;
 let currentScore = 0;
 let highScores = [];
@@ -91,16 +92,17 @@ const loadScores = () => {
     }
 }
 
-//generate question from array
+//start the quiz
 const startQuiz = () => {
     intro.style.display = 'none';
     questionBlock.style.display = 'block'
     //start timer
     clock = setInterval(timer, 1000);
-    //pass index of question
+    //get questions
     getQuestion();
 }
 
+//runs through array of questions
 const getQuestion = () => {
     if (currentQuestion >= myQuestions.length) {
         endGame();
@@ -124,6 +126,7 @@ const getQuestion = () => {
     answerOptions.addEventListener('click', checkAnswer);
 }
 
+//check if selected answer is correct
 const checkAnswer = (event) => {
     let userAnswer = event.target.getAttribute('data-answer-index');
     let questionIndex = event.target.getAttribute('data-question-index');
@@ -142,10 +145,9 @@ const checkAnswer = (event) => {
             time = 0;
         }
     }
-
 }
 
-// after answer is made
+// show result of previous answer
 const showResult = (answer) => {
     resultContainer.style.display = 'block';
     if (answer) {
@@ -158,13 +160,15 @@ const showResult = (answer) => {
     getQuestion();
 }
 
+//remove previous answers
 const clearListItems = () => {
     answerOptions.innerHTML = ''
-
 }
 
+//when all questions have been answered or timer reaches 0. end the game and stop the clock
 const endGame = () => {
     clearInterval(clock);
+
     questionContainer.style.display = 'none';
     let endGameContainer = document.createElement('div');
 
@@ -175,7 +179,6 @@ const endGame = () => {
     let yourScore = document.createElement('h3');
     yourScore.textContent = `Your Score: ${currentScore}`;
     endGameContainer.appendChild(yourScore);
-
 
     const initialsForm = document.createElement('form');
 
@@ -203,7 +206,7 @@ const endGame = () => {
 
     questionBlock.appendChild(endGameContainer);
 
-
+    //listen for submit of initials and save to highScores array
     initialsSubmit.addEventListener('click', function () {
         event.preventDefault();
         initialsValue = initialsInput.value;
@@ -213,16 +216,13 @@ const endGame = () => {
             initialsForm.reset();
             return false;
         }
-
         highScores.push({ name: initialsValue, score: currentScore });
         saveScores();
         viewHighScores();
-
     });
-
-
 }
 
+//validate initials input to 2 characters
 const validateInitials = (string) => {
     let stringArr = string.split('');
     if (stringArr.length !== 2) {
@@ -231,6 +231,7 @@ const validateInitials = (string) => {
         return true;
     }
 }
+
 //save scores to local
 const saveScores = () => {
     localStorage.setItem('scores', JSON.stringify(highScores));
@@ -239,32 +240,39 @@ const saveScores = () => {
 //generate high scores list
 const viewHighScores = () => {
     main.innerHTML = '';
+
     let scoresTitle = document.createElement('h2');
     scoresTitle.textContent = 'High Scores';
     main.appendChild(scoresTitle);
+
     highScores.sort(compare);
 
+    //list scores
     for (i = highScores.length - 1; i >= 0; i--) {
         let score = document.createElement('h4');
         score.innerText = `${highScores[i].name}: ${highScores[i].score}`;
         main.appendChild(score);
     }
 
+    //start quiz button
     let startOver = document.createElement('button');
     startOver.className = 'btn';
     startOver.textContent = 'Take Quiz';
     startOver.setAttribute('id', 'start-over');
     main.appendChild(startOver);
 
+    //reload page to start quiz
     startOver.addEventListener('click', function () {
         location.reload();
     });
 }
 
+//sort high scores by score value
 const compare = (a, b) => {
     return a.score - b.score;
 }
 
+//set quiz timer
 const timer = () => {
     if (time <= 10) {
         timeLeft.style.color = 'red';
@@ -273,17 +281,15 @@ const timer = () => {
         clearInterval(clock);
         endGame();
     } else {
-
         time--;
     }
     timeLeft.textContent = time;
-
 }
 
-
+//load previous scores if any
 loadScores();
-//show first question when start button is clicked
+//start the quiz listener
 startBtn.addEventListener('click', startQuiz);
-
+//see high scores listener
 highScoresBtn.addEventListener('click', viewHighScores);
 
