@@ -79,7 +79,7 @@ let questionContainer = document.querySelector('.question-container');
 let currentQuestion = 0;
 let currentScore = 0;
 let highScores = [];
-let time = 15;
+let time = 60;
 let clock;
 
 const loadScores = () => {
