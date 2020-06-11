@@ -188,8 +188,9 @@ main.innerHTML = '';
 let scoresTitle = document.createElement('h2');
 scoresTitle.textContent = 'High Scores';
 main.appendChild(scoresTitle);
+highScores.sort(compare);
 
-for (i=0;i<highScores.length; i++){
+for (i=highScores.length-1;i>=0; i--){
     let score = document.createElement('h4');
     score.innerText = `${highScores[i].name}: ${highScores[i].score}`;
     main.appendChild(score);
@@ -204,9 +205,12 @@ main.appendChild(startOver);
 startOver.addEventListener('click', function (){
     location.reload();
 });
-
-
 }
+
+const compare = (a,b) =>{
+    return a.score-b.score;
+}
+
 
 loadScores();
 //show first question when start button is clicked
