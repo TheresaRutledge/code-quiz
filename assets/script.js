@@ -34,6 +34,7 @@ const resultContainer = document.querySelector('.result');
 let questionContainer = document.querySelector('.question-container');
 let currentQuestion = 0;
 let currentScore = 0;
+let highScores = [];
 
 //generate question from array
 const startQuiz = () => {
@@ -109,23 +110,57 @@ const endGame = () => {
     yourScore.textContent = `Your Score: ${currentScore}`;
     endGameContainer.appendChild(yourScore);
 
+
+    const initialsForm = document.createElement('form');
+
     let initialsLabel= document.createElement('label');
     initialsLabel.className = 'form-label';
     initialsLabel.setAttribute('for','initials');
     initialsLabel.textContent = 'Enter Initials: ';
-    endGameContainer.appendChild(initialsLabel);
+    initialsForm.appendChild(initialsLabel);
 
     let initialsInput = document.createElement('input');
     initialsInput.setAttribute('type','text');
     initialsInput.setAttribute('id','initials');
     initialsInput.setAttribute('name','initials');
-    endGameContainer.appendChild(initialsInput);
+    initialsForm.appendChild(initialsInput);
+
+    let initialsSubmit = document.createElement('button');
+    initialsSubmit.className='btn';
+    initialsSubmit.setAttribute('id','submit');
+    initialsSubmit.setAttribute('type','submit');
+    initialsSubmit.textContent = 'Submit';
+    initialsForm.appendChild(initialsSubmit);
+
+    endGameContainer.appendChild(initialsForm);
+
 
     questionBlock.appendChild(endGameContainer);
 
-
     
+    initialsSubmit.addEventListener('click',function (){
+        event.preventDefault();
+        initialsValue = initialsInput.value;
+        if(!validateInitials(initialsValue)){
+            alert('Enter two letter initials');
+            initialsForm.reset();
+            return false;
+        }
+        highScores.push({name:initialsValue,score:currentScore});
+        viewHighScores();
+       
+    });
 
+
+}
+
+const validateInitials = (string) => {
+    let stringArr = string.split('');
+    if (stringArr.length !== 2){
+        return false
+    } else {
+        return true;
+    }
 }
 
 //show first question when start button is clicked

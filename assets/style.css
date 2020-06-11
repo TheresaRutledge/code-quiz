@@ -79,3 +79,6 @@ display:none;
     height:20px;
     margin:20px;
 }
+#submit{
+    display:inline;
+}
